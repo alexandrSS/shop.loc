@@ -81,4 +81,24 @@ class Article extends \yii\db\ActiveRecord
 
         return $list;
     }
+
+    /**
+     * @return array
+     */
+    public static function getArticleCategoryListArray($category_id)
+    {
+        $articles = self::find()->where(['category_id'=>$category_id])->all();
+
+        $list = array();
+
+        foreach ($articles as $article) {
+
+            $list[]=[
+                'id' => $article->id_article,
+                'name' => $article->name_article
+            ];
+        }
+
+        return $list;
+    }
 }

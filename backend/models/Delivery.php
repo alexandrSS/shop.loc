@@ -76,7 +76,7 @@ class Delivery extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdArticle()
+    public function getArticle()
     {
         return $this->hasOne(Article::className(), ['id_article' => 'article_id']);
     }
@@ -96,4 +96,79 @@ class Delivery extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Sales::className(), ['delivery_id' => 'id_delivery']);
     }
+
+
+    public static function getDeliveryListArray($article_id)
+    {
+        if($deliverys = self::find()->where(['article_id'=>$article_id])->all()){
+
+            $list = array();
+
+            foreach ($deliverys as $delivery) {
+
+                $list[] = [
+                        'id' => $delivery->id_delivery,
+                        'name' => $delivery->srok_godnosti
+                    ];
+            }
+
+            return $list;
+        }
+        return null;
+    }
+
+
+    public static function getDeliveryKolichestvo($srok_godnosti, $article_id)
+    {
+        if($srok = self::find()->where(['id_delivery'=>$srok_godnosti])->one()){
+
+            $deliverys = self::find()->where(['srok_godnosti'=>$srok->srok_godnosti,'article_id'=>$article_id])->all();
+
+            $list = array();
+            $count = 0;
+
+            foreach ($deliverys as $delivery) {
+
+                $count += $delivery->kolichestvo_tovara;
+
+            }
+
+            for($a = 1; $a <= $count; $a++){
+                $list[] = [
+                        'id' => $a,
+                        'name' => $a
+                    ];
+            }
+
+            return $list;
+        }
+        return null;
+    }
+
+/*    public static function getDeliveryKolichestvo($srok_godnosti, $article_id)
+    {
+        if($srok = self::find()->where(['id_delivery'=>$srok_godnosti])->one()){
+
+            $deliverys = self::find()->where(['srok_godnosti'=>$srok->srok_godnosti,'article_id'=>$article_id])->all();
+
+
+            $list = array();
+            $list['out']=array();
+            $i = 0;
+            foreach ($deliverys as $delivery) {
+
+                array_push($list['out'],[
+                        'id' => $delivery->id_delivery,
+                        'name' => $delivery->kolichestvo_tovara]
+                );
+
+                if($i == 0){
+                    $list['selected'] = $delivery->id_delivery;
+                    $i++;
+                }
+            }
+            return $list;
+        }
+        return null;
+    }*/
 }

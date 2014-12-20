@@ -26,8 +26,7 @@
         "bower-asset/jquery-ui": "*",
         "vova07/yii2-imperavi-widget": "*",
         "vova07/yii2-fileapi-widget": "*",
-        "kartik-v/dependent-dropdown": "dev-master",
-        "kartik-v/yii2-widget-depdrop": "*"
+        "kartik-v/yii2-widgets": "*"
     },
     "require-dev": {
     	"yiisoft/yii2-debug": "*",

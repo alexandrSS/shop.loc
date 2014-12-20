@@ -211,6 +211,23 @@ class RbacController extends Controller
         $bcLogBatchDelete->description = 'Удаление событий';
         $auth->add($bcLogBatchDelete);
 
+        // Продажа
+        $bcProdajaIndex = $auth->createPermission('bcProdajaIndex');
+        $bcProdajaIndex->description = 'Продажа';
+        $auth->add($bcProdajaIndex);
+
+        $bcProdajaArticle = $auth->createPermission('bcProdajaArticle');
+        $bcProdajaArticle->description = 'Продажа';
+        $auth->add($bcProdajaArticle);
+
+        $bcProdajaSrokGodnosti = $auth->createPermission('bcProdajaSrokGodnosti');
+        $bcProdajaSrokGodnosti->description = 'Продажа';
+        $auth->add($bcProdajaSrokGodnosti);
+
+        $bcProdajaKolichestvo = $auth->createPermission('bcProdajaKolichestvo');
+        $bcProdajaKolichestvo->description = 'Продажа';
+        $auth->add($bcProdajaKolichestvo);
+
 
 
         // Roles
@@ -254,6 +271,10 @@ class RbacController extends Controller
         $auth->addChild($admin, $bcPostavkaUpdate);
         $auth->addChild($admin, $bcLogIndex);
         $auth->addChild($admin, $bcLogView);
+        $auth->addChild($admin, $bcProdajaIndex);
+        $auth->addChild($admin, $bcProdajaArticle);
+        $auth->addChild($admin, $bcProdajaSrokGodnosti);
+        $auth->addChild($admin, $bcProdajaKolichestvo);
 
         // Супер-Админ
         $superadmin = $auth->createRole('superadmin');

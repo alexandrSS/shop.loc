@@ -60,7 +60,7 @@ class DeliverySearch extends Delivery
             'cena_postavki' => $this->cena_postavki,
             'kolichestvo_tovara' => $this->kolichestvo_tovara,
             'srok_godnosti' => $this->srok_godnosti,
-            'status' => $this->Статус,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'remark', $this->remark]);

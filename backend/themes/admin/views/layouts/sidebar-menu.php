@@ -14,7 +14,7 @@ echo \common\components\widgets\menu\MenuWidget::widget([
         ],
         [
             'label' => Yii::t('themes', 'Товар'),
-            'icon' => '<i class="fa fa-shopping-cart"></i>',
+            'icon' => '<i class="fa fa-barcode"></i>',
             'options' => ['class' => 'treeview'],
             'items' => [
                 [
@@ -53,7 +53,7 @@ echo \common\components\widgets\menu\MenuWidget::widget([
         ],
         [
             'label' => Yii::t('themes', 'Продажи'),
-            'icon' => '<i class="fa fa-truck"></i>',
+            'icon' => '<i class="fa fa-shopping-cart"></i>',
             'options' => ['class' => 'treeview'],
             'items' => [
                 [

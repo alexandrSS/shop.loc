@@ -1,76 +1,87 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\ActiveForm;
-use backend\assets\DependentDropdown;
+use kartik\depdrop\DepDrop;
+use yii\helpers\Url;
+use yii\jui\DatePicker;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\SalesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-DependentDropdown::register($this);
-$this->title = 'Sales';
+$this->title = 'Продажа';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 
 <div class="sales-index">
 
     <div class="sales-form">
-
-        <?php $form = ActiveForm::begin(); ?>
-
+        <?php $form = ActiveForm::begin() ?>
         <div class="row">
-            <div class="col-sm-4"><!-- HTML Markup (Parent) -->
-                <select id="cat-id">
-                    <option id="">Select ...</option>
-                    <!-- other options -->
-                </select>
+            <div class="col-sm-3">
+                <?=
+                $form->field($model, 'category_id')->dropDownList($categoryList, [
+                    'id' => 'category_id',
+                    'prompt' => 'Выберите категорию...'
+                ]) ?>
             </div>
-            <div class="col-sm-4">
-                <!-- HTML Markup (Child # 1) -->
-                <select id="subcat-id">
-                    <option id="">Select ...</option>
-                    <!-- other options -->
-                </select>
+            <div class="col-sm-3">
+                <?=
+                $form->field($model, 'article_id')->widget(DepDrop::classname(), [
+                    'options' => ['id' => 'article_id'],
+                    'pluginOptions' => [
+                        'depends' => ['category_id'],
+                        'placeholder' => 'Выберите...',
+                        'url' => Url::to(['/prodaja/article'])
+                    ]
+                ]) ?>
             </div>
-            <div class="col-sm-4">
-                <!-- HTML Markup (Child # 2) -->
-                <select id="prod-id">
-                    <option id="">Select ...</option>
-                    <!-- other options -->
-                </select>
+            <div class="col-sm-2">
+                <?=
+                $form->field($model, 'srok_godnosti')->widget(DepDrop::classname(), [
+                    'options' => ['id' => 'srok_godnosti'],
+                    'pluginOptions' => [
+                        'depends' => ['category_id', 'article_id'],
+                        'placeholder' => 'Выберите...',
+                        'url' => Url::to(['/prodaja/srok-godnosti'])
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-sm-2">
+                <?=
+                $form->field($model, 'kolichestvo')->widget(DepDrop::classname(), [
+                    'pluginOptions' => [
+                        'depends' => ['article_id', 'srok_godnosti'],
+                        'placeholder' => 'Выберите...',
+                        'url' => Url::to(['/prodaja/kolichestvo'])
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $form->field($model, 'prace')->textInput() ?>
             </div>
         </div>
-
-        <?= $form->field($model, 'date')->textInput() ?>
-
-        <?= $form->field($model, 'kolichestvo')->textInput() ?>
-
-        <?= $form->field($model, 'price')->textInput() ?>
-
-        <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
-
+        <div class="row">
+            <div class="col-sm-3">
+                <?=
+                $form->field($model, 'date')->widget(
+                    DatePicker::className(),
+                    [
+                        'options' => [
+                            'class' => 'form-control'
+                        ],
+                        'clientOptions' => [
+                            'dateFormat' => 'yyyy-MM-dd',
+                        ]
+                    ]
+                ); ?>
+            </div>
+        </div>
         <div class="form-group">
-            <?= Html::submitButton('Create', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
-
-        <?php ActiveForm::end(); ?>
-
+        <?php ActiveForm::end() ?>
     </div>
 
 </div>
-<script>
-    // Child # 1
-    $("#subcat-id").depdrop({
-        url: '/server/getSubcat',
-        depends: ['cat-id']
-    });
-
-    // Child # 2
-    $("#prod-id").depdrop({
-        url: '/server/getProd',
-        depends: ['cat-id', 'subcat-id']
-    });
-</script>

@@ -81,10 +81,12 @@ class DeliveryController extends Controller
     {
         $searchModel = new DeliverySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $articleList = Article::getArticleListArray();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'articleList' => $articleList
         ]);
     }
 
